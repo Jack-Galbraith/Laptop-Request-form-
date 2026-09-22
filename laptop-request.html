@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laptop Request</title>
+<style>
+  :root {
+    --ink: #14213D;
+    --ink-soft: #2B3A5C;
+    --paper: #FAFAF8;
+    --panel: #FFFFFF;
+    --line: #DCDCD6;
+    --text: #22252B;
+    --text-mute: #63666E;
+    --amber: #C97A1A;
+    --amber-deep: #A5620F;
+    --teal: #4F7A72;
+    --error: #B3421F;
+    --radius: 3px;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14161B;
+      --panel: #1B1E24;
+      --line: #33363E;
+      --text: #ECECE7;
+      --text-mute: #9A9DA6;
+      --ink: #EDEFF5;
+      --ink-soft: #C6CCDC;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14161B;
+    --panel: #1B1E24;
+    --line: #33363E;
+    --text: #ECECE7;
+    --text-mute: #9A9DA6;
+    --ink: #EDEFF5;
+    --ink-soft: #C6CCDC;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", "Inter", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  header.masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 6px;
+  }
+  .brand {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+  .ref {
+    font-size: 12px;
+    color: var(--text-mute);
+    font-variant-numeric: tabular-nums;
+  }
+  h1 {
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 22px 0 6px;
+  }
+  .lede {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-mute);
+    max-width: 46ch;
+    margin: 0 0 36px;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin: 40px 0 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-title:first-of-type { margin-top: 0; }
+  .field {
+    margin: 18px 0;
+  }
+  .field label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .field .hint {
+    font-weight: 400;
+    color: var(--text-mute);
+    font-size: 12.5px;
+  }
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 520px) {
+    .row2 { grid-template-columns: 1fr; }
+  }
+  input, select, textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 15px;
+    padding: 11px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    color: var(--text);
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--amber);
+    outline-offset: 1px;
+    border-color: var(--amber);
+  }
+  textarea { resize: vertical; min-height: 84px; }
+  fieldset {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 4px 14px 14px;
+    margin: 0;
+  }
+  fieldset legend {
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 0 4px;
+  }
+  .radio-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .radio-opt:last-child { border-bottom: none; }
+  .radio-opt input { width: auto; margin-top: 3px; }
+  .radio-opt .opt-title { font-size: 14.5px; font-weight: 600; }
+  .radio-opt .opt-sub { font-size: 12.5px; color: var(--text-mute); margin-top: 1px; }
+  .actions {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  button[type="submit"] {
+    background: var(--amber);
+    color: #fff;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  button[type="submit"]:hover { background: var(--amber-deep); }
+  button[type="submit"]:disabled { opacity: 0.55; cursor: default; }
+  .status {
+    font-size: 13.5px;
+    color: var(--text-mute);
+  }
+  .status.error { color: var(--error); }
+  .required-mark { color: var(--amber-deep); }
+  .confirm {
+    display: none;
+    border: 1px solid var(--teal);
+    background: color-mix(in srgb, var(--teal) 10%, var(--panel));
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-top: 20px;
+  }
+  .confirm h2 {
+    margin: 0 0 8px;
+    font-size: 19px;
+    color: var(--ink);
+  }
+  .confirm p { margin: 0 0 4px; font-size: 14.5px; color: var(--text-mute); line-height: 1.5; }
+  .confirm .refnum { font-weight: 700; color: var(--teal); font-variant-numeric: tabular-nums; }
+  footer {
+    margin-top: 56px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--text-mute);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="brand">[Your MSP Name] — IT Provisioning</div>
+    <div class="ref" id="refNum"></div>
+  </header>
+
+  <h1>Request a laptop</h1>
+  <p class="lede">Fill this in whenever your organization needs a new or replacement device provisioned. We'll confirm receipt and follow up with a timeline.</p>
+
+  <form id="laptopForm">
+
+    <div class="section-title">Your organization</div>
+    <div class="field">
+      <label for="company">Company name <span class="required-mark">*</span></label>
+      <input type="text" id="company" name="company" required autocomplete="organization">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="site">Site / office location</label>
+        <input type="text" id="site" name="site" placeholder="e.g. Main office, Remote">
+      </div>
+      <div class="field">
+        <label for="poNumber">PO / cost code <span class="hint">(if applicable)</span></label>
+        <input type="text" id="poNumber" name="poNumber">
+      </div>
+    </div>
+
+    <div class="section-title">Requested by</div>
+    <div class="row2">
+      <div class="field">
+        <label for="name">Full name <span class="required-mark">*</span></label>
+        <input type="text" id="name" name="name" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="email">Email <span class="required-mark">*</span></label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+      </div>
+    </div>
+    <div class="field">
+      <label for="phone">Phone <span class="hint">(optional, for urgent requests)</span></label>
+      <input type="tel" id="phone" name="phone" autocomplete="tel">
+    </div>
+
+    <div class="section-title">Device details</div>
+    <div class="row2">
+      <div class="field">
+        <label for="quantity">Number of laptops <span class="required-mark">*</span></label>
+        <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+      </div>
+      <div class="field">
+        <label for="deviceFor">For</label>
+        <select id="deviceFor" name="deviceFor">
+          <option value="New hire">New hire</option>
+          <option value="Replacement — damaged">Replacement — damaged</option>
+          <option value="Replacement — aged out">Replacement — aged out</option>
+          <option value="Additional / spare">Additional / spare</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <fieldset>
+        <legend>Spec tier</legend>
+        <label class="radio-opt">
+          <input type="radio" name="tier" value="Standard business" checked>
+          <span>
+            <span class="opt-title">Standard business</span><br>
+            <span class="opt-sub">General office work — email, documents, browsing</span>
+          </span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="tier" value="Power user">
+          <span>
+            <span class="opt-title">Power user</span><br>
+            <span class="opt-sub">Development, design, heavier multitasking</span>
+          </span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="tier" value="Executive">
+          <span>
+            <span class="opt-title">Executive / premium</span><br>
+            <span class="opt-sub">Lightweight, premium build</span>
+          </span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="tier" value="Not sure">
+          <span>
+            <span class="opt-title">Not sure — recommend one</span>
+          </span>
+        </label>
+      </fieldset>
+    </div>
+
+    <div class="field">
+      <label for="notes">Anything else we should know</label>
+      <textarea id="notes" name="notes" placeholder="Software needs, accessories, docking setup, etc."></textarea>
+    </div>
+
+    <div class="section-title">Timing</div>
+    <div class="row2">
+      <div class="field">
+        <label for="urgency">Urgency <span class="required-mark">*</span></label>
+        <select id="urgency" name="urgency" required>
+          <option value="Standard (5–7 business days)">Standard (5–7 business days)</option>
+          <option value="Urgent (48 hours)">Urgent (48 hours)</option>
+          <option value="Flexible / no rush">Flexible / no rush</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="neededBy">Needed by <span class="hint">(optional)</span></label>
+        <input type="date" id="neededBy" name="neededBy">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" id="submitBtn">Send request</button>
+      <span class="status" id="statusMsg"></span>
+    </div>
+  </form>
+
+  <div class="confirm" id="confirmBox">
+    <h2>Request received</h2>
+    <p>Reference <span class="refnum" id="confirmRef"></span></p>
+    <p>We've logged this and will follow up by email with next steps and timing.</p>
+  </div>
+
+  <footer>
+    Questions about an existing request? Reply to your confirmation email or contact your account manager.
+  </footer>
+</div>
+
+<script>
+  // Set this to the "When an HTTP request is received" trigger URL from your
+  // Power Automate flow. Leave blank to fall back to a mailto draft instead.
+  const WEBHOOK_URL = "";
+  const NOTIFY_EMAIL = "requests@yourmsp.example"; // used only as the mailto fallback
+
+  function genRef() {
+    const d = new Date();
+    const stamp = d.toISOString().slice(0,10).replace(/-/g,"");
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    return "LR-" + stamp + "-" + rand;
+  }
+  const ref = genRef();
+  document.getElementById("refNum").textContent = "Ref " + ref;
+
+  const form = document.getElementById("laptopForm");
+  const statusMsg = document.getElementById("statusMsg");
+  const submitBtn = document.getElementById("submitBtn");
+  const confirmBox = document.getElementById("confirmBox");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.reference = ref;
+    data.submittedAt = new Date().toISOString();
+
+    submitBtn.disabled = true;
+    statusMsg.textContent = "Sending…";
+    statusMsg.classList.remove("error");
+
+    if (!WEBHOOK_URL) {
+      // No webhook configured yet — open a pre-filled email as a fallback.
+      const body = Object.entries(data).map(([k,v]) => k + ": " + v).join("%0D%0A");
+      window.location.href = "mailto:" + NOTIFY_EMAIL + "?subject=Laptop%20request%20" + ref + "&body=" + body;
+      statusMsg.textContent = "Opening your email client…";
+      submitBtn.disabled = false;
+      showConfirm();
+      return;
+    }
+
+    try {
+      const resp = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!resp.ok) throw new Error("Request failed (" + resp.status + ")");
+      showConfirm();
+    } catch (err) {
+      statusMsg.textContent = "Couldn't send automatically — try again, or email " + NOTIFY_EMAIL + ".";
+      statusMsg.classList.add("error");
+      submitBtn.disabled = false;
+    }
+  });
+
+  function showConfirm() {
+    form.style.display = "none";
+    confirmBox.style.display = "block";
+    document.getElementById("confirmRef").textContent = ref;
+    confirmBox.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+</script>
+</body>
+</html>
