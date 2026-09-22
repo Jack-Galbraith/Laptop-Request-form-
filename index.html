@@ -213,12 +213,12 @@
 <div class="wrap">
 
   <header class="masthead">
-    <div class="brand">[Your MSP Name] — IT Provisioning</div>
+    <div class="brand">[SolaaS] —</div>
     <div class="ref" id="refNum"></div>
   </header>
 
   <h1>Request a laptop</h1>
-  <p class="lede">Fill this in whenever your organization needs a new or replacement device provisioned. We'll confirm receipt and follow up with a timeline.</p>
+  <p class="lede">.</p>
 
   <form id="laptopForm">
 
@@ -233,7 +233,7 @@
         <input type="text" id="site" name="site" placeholder="e.g. Main office, Remote">
       </div>
       <div class="field">
-        <label for="poNumber">PO / cost code <span class="hint">(if applicable)</span></label>
+        <label for="poNumber"></span></label>
         <input type="text" id="poNumber" name="poNumber">
       </div>
     </div>
@@ -311,15 +311,10 @@
     </div>
 
     <div class="section-title">Timing</div>
-    <div class="row2">
-      <div class="field">
-        <label for="urgency">Urgency <span class="required-mark">*</span></label>
-        <select id="urgency" name="urgency" required>
-          <option value="Standard (5–7 business days)">Standard (5–7 business days)</option>
-          <option value="Urgent (48 hours)">Urgent (48 hours)</option>
-          <option value="Flexible / no rush">Flexible / no rush</option>
-        </select>
-      </div>
+<div class="field">
+  <label for="neededBy">Needed by <span class="hint">(optional)</span></label>
+  <input type="date" id="neededBy" name="neededBy">
+</div>
       <div class="field">
         <label for="neededBy">Needed by <span class="hint">(optional)</span></label>
         <input type="date" id="neededBy" name="neededBy">
