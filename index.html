@@ -133,15 +133,6 @@
   .brand.has-logo .logo-mark { display: none; }
   .brand.has-logo .logo-img { display: block; }
   .brand.has-logo .brand-name.hide-with-logo { display: none; }
-  .ref {
-    font-size: 11.5px;
-    color: var(--text-mute);
-    font-variant-numeric: tabular-nums;
-    background: var(--line-soft);
-    padding: 3px 8px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
   h1 {
     font-size: 29px;
     line-height: 1.15;
@@ -280,7 +271,6 @@
   }
   .confirm h2 { margin: 0 0 8px; font-size: 19px; color: var(--ink); }
   .confirm p { margin: 0 0 4px; font-size: 14.5px; color: var(--text-mute); line-height: 1.5; }
-  .confirm .refnum { font-weight: 700; color: var(--teal); font-variant-numeric: tabular-nums; }
   footer {
     margin-top: 44px;
     padding-top: 18px;
@@ -308,7 +298,6 @@
       <img class="logo-img" id="logoImg" alt="SolaaS logo">
       <span class="brand-name" id="brandName">SolaaS</span>
     </div>
-    <div class="ref" id="refNum"></div>
   </header>
 
   <h1>Request a laptop</h1>
@@ -321,15 +310,9 @@
       <label for="company">Company name <span class="required-mark">*</span></label>
       <input type="text" id="company" name="company" required autocomplete="organization">
     </div>
-    <div class="row2">
-      <div class="field">
-        <label for="site">Site / office location</label>
-        <input type="text" id="site" name="site" placeholder="e.g. Main office, Remote">
-      </div>
-      <div class="field">
-        <label for="poNumber">PO / cost code <span class="hint">(optional)</span></label>
-        <input type="text" id="poNumber" name="poNumber">
-      </div>
+    <div class="field">
+      <label for="site">Site / office location <span class="hint">(if required)</span></label>
+      <input type="text" id="site" name="site" placeholder="e.g. Main office, Remote">
     </div>
 
     <div class="section-title">Requested by</div>
@@ -406,8 +389,8 @@
 
     <div class="section-title">Timing</div>
     <div class="field">
-      <label for="neededBy">Needed by <span class="hint">(optional)</span></label>
-      <input type="date" id="neededBy" name="neededBy">
+      <label for="neededBy">Needed by <span class="required-mark">*</span></label>
+      <input type="date" id="neededBy" name="neededBy" required>
     </div>
 
     <div class="actions">
@@ -419,7 +402,6 @@
   <div class="confirm" id="confirmBox">
     <div class="check">✓</div>
     <h2>Request received</h2>
-    <p>Reference <span class="refnum" id="confirmRef"></span></p>
     <p>We've logged this and will follow up by email with next steps and timing.</p>
   </div>
 
@@ -461,15 +443,6 @@
     if (LOGO_HIDES_NAME) document.getElementById("brandName").classList.add("hide-with-logo");
   }
 
-  function genRef() {
-    const d = new Date();
-    const stamp = d.toISOString().slice(0,10).replace(/-/g,"");
-    const rand = Math.floor(1000 + Math.random() * 9000);
-    return "LR-" + stamp + "-" + rand;
-  }
-  const ref = genRef();
-  document.getElementById("refNum").textContent = "Ref " + ref;
-
   const form = document.getElementById("laptopForm");
   const statusMsg = document.getElementById("statusMsg");
   const submitBtn = document.getElementById("submitBtn");
@@ -480,7 +453,6 @@
     if (!form.reportValidity()) return;
 
     const data = Object.fromEntries(new FormData(form).entries());
-    data.reference = ref;
     data.submittedAt = new Date().toISOString();
 
     submitBtn.disabled = true;
@@ -490,11 +462,10 @@
     if (!WEBHOOK_URL) {
       // No webhook configured yet — open a pre-filled email as a fallback.
       const lines = [
-        "New laptop request — " + ref,
+        "New laptop request",
         "",
         "Company: " + (data.company || "—"),
         "Site / location: " + (data.site || "—"),
-        "PO / cost code: " + (data.poNumber || "—"),
         "",
         "Requested by: " + (data.name || "—"),
         "Email: " + (data.email || "—"),
@@ -510,7 +481,7 @@
         "Submitted: " + data.submittedAt
       ];
       const body = lines.map(encodeURIComponent).join("%0D%0A");
-      window.location.href = "mailto:" + NOTIFY_EMAIL + "?subject=" + encodeURIComponent("Laptop request " + ref) + "&body=" + body;
+      window.location.href = "mailto:" + NOTIFY_EMAIL + "?subject=" + encodeURIComponent("Laptop request — " + (data.company || "")) + "&body=" + body;
       statusMsg.textContent = "Opening your email client…";
       submitBtn.disabled = false;
       showConfirm();
@@ -535,7 +506,6 @@
   function showConfirm() {
     form.style.display = "none";
     confirmBox.style.display = "block";
-    document.getElementById("confirmRef").textContent = ref;
     confirmBox.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 </script>
