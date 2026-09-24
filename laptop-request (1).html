@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laptop Request</title>
+<style>
+  :root {
+    --ink: #14213D;
+    --ink-soft: #2B3A5C;
+    --paper: #F1F0EC;
+    --panel: #FFFFFF;
+    --line: #E3E1D9;
+    --line-soft: #ECEAE2;
+    --text: #22252B;
+    --text-mute: #6B6E76;
+    --amber: #C97A1A;
+    --amber-deep: #A5620F;
+    --amber-wash: #FBEEDD;
+    --teal: #4F7A72;
+    --error: #B3421F;
+    --radius: 6px;
+    --radius-lg: 14px;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #101216;
+      --panel: #1B1E24;
+      --line: #33363E;
+      --line-soft: #2A2D34;
+      --text: #ECECE7;
+      --text-mute: #9A9DA6;
+      --ink: #EDEFF5;
+      --ink-soft: #C6CCDC;
+      --amber-wash: #2E2214;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #101216;
+    --panel: #1B1E24;
+    --line: #33363E;
+    --line-soft: #2A2D34;
+    --text: #ECECE7;
+    --text-mute: #9A9DA6;
+    --ink: #EDEFF5;
+    --ink-soft: #C6CCDC;
+    --amber-wash: #2E2214;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background:
+      radial-gradient(circle at 12% -10%, color-mix(in srgb, var(--amber) 7%, transparent), transparent 45%),
+      var(--paper);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", "Inter", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page-shell {
+    display: flex;
+    justify-content: center;
+    padding: 56px 20px 80px;
+  }
+  .card {
+    width: 100%;
+    max-width: 620px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 2px rgba(20, 33, 61, 0.04), 0 18px 40px -22px rgba(20, 33, 61, 0.28);
+    overflow: hidden;
+  }
+  .accent-bar {
+    height: 5px;
+    background: linear-gradient(90deg, var(--amber) 0%, var(--amber-deep) 100%);
+  }
+  .card-inner {
+    padding: 40px 40px 44px;
+  }
+  @media (max-width: 520px) {
+    .card-inner { padding: 30px 22px 34px; }
+    .page-shell { padding: 0; }
+    .card { border-radius: 0; border-left: none; border-right: none; min-height: 100%; }
+  }
+  header.masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 18px;
+    margin-bottom: 4px;
+  }
+  .brand {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+  .ref {
+    font-size: 11.5px;
+    color: var(--text-mute);
+    font-variant-numeric: tabular-nums;
+    background: var(--line-soft);
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+  h1 {
+    font-size: 29px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 24px 0 8px;
+  }
+  .lede {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-mute);
+    max-width: 48ch;
+    margin: 0 0 8px;
+  }
+  .section-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--amber-deep);
+    margin: 38px 0 14px;
+  }
+  .section-title:first-of-type { margin-top: 34px; }
+  .field {
+    margin: 16px 0;
+  }
+  .field label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .field .hint {
+    font-weight: 400;
+    color: var(--text-mute);
+    font-size: 12.5px;
+  }
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 520px) {
+    .row2 { grid-template-columns: 1fr; }
+  }
+  input, select, textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 15px;
+    padding: 11px 13px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    color: var(--text);
+    transition: border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  }
+  input::placeholder, textarea::placeholder { color: var(--text-mute); opacity: 0.7; }
+  input:hover, select:hover, textarea:hover { border-color: color-mix(in srgb, var(--ink) 25%, var(--line)); }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--amber);
+    background: var(--panel);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--amber) 18%, transparent);
+  }
+  textarea { resize: vertical; min-height: 84px; }
+  fieldset {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 6px 14px 12px;
+    margin: 0;
+    background: var(--paper);
+  }
+  fieldset legend {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0 6px;
+    color: var(--ink-soft);
+  }
+  .radio-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 4px;
+    border-bottom: 1px solid var(--line-soft);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: background 120ms ease;
+  }
+  .radio-opt:hover { background: var(--amber-wash); }
+  .radio-opt:last-child { border-bottom: none; }
+  .radio-opt input { width: auto; margin-top: 3px; accent-color: var(--amber); }
+  .radio-opt .opt-title { font-size: 14.5px; font-weight: 600; }
+  .radio-opt .opt-sub { font-size: 12.5px; color: var(--text-mute); margin-top: 1px; }
+  .actions {
+    margin-top: 38px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  button[type="submit"] {
+    background: var(--amber);
+    color: #fff;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 28px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--amber-deep) 70%, transparent);
+    transition: background 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+  }
+  button[type="submit"]:hover { background: var(--amber-deep); transform: translateY(-1px); box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--amber-deep) 75%, transparent); }
+  button[type="submit"]:active { transform: translateY(0); }
+  button[type="submit"]:disabled { opacity: 0.55; cursor: default; transform: none; box-shadow: none; }
+  .status {
+    font-size: 13.5px;
+    color: var(--text-mute);
+  }
+  .status.error { color: var(--error); }
+  .required-mark { color: var(--amber-deep); }
+  .confirm {
+    display: none;
+    border: 1px solid var(--teal);
+    background: color-mix(in srgb, var(--teal) 10%, var(--panel));
+    border-radius: var(--radius);
+    padding: 30px 26px;
+    margin-top: 22px;
+    text-align: left;
+  }
+  .confirm .check {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+  .confirm h2 {
+    margin: 0 0 8px;
+    font-size: 19px;
+    color: var(--ink);
+  }
+  .confirm p { margin: 0 0 4px; font-size: 14.5px; color: var(--text-mute); line-height: 1.5; }
+  .confirm .refnum { font-weight: 700; color: var(--teal); font-variant-numeric: tabular-nums; }
+  footer {
+    margin-top: 44px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--text-mute);
+  }
+</style>
+</head>
+<body>
+<div class="page-shell">
+<div class="card">
+  <div class="accent-bar"></div>
+  <div class="card-inner">
+
+  <header class="masthead">
+    <div class="brand">SolaaS</div>
+    <div class="ref" id="refNum"></div>
+  </header>
+
+  <h1>Request a laptop</h1>
+  <p class="lede">Fill this in whenever your organization needs a new or replacement device provisioned. We'll confirm receipt and follow up with a timeline.</p>
+
+  <form id="laptopForm">
+
+    <div class="section-title">Your organization</div>
+    <div class="field">
+      <label for="company">Company name <span class="required-mark">*</span></label>
+      <input type="text" id="company" name="company" required autocomplete="organization">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="site">Site / office location</label>
+        <input type="text" id="site" name="site" placeholder="e.g. Main office, Remote">
+      </div>
+      <div class="field">
+        <label for="poNumber">PO / cost code <span class="hint">(optional)</span></label>
+        <input type="text" id="poNumber" name="poNumber">
+      </div>
+    </div>
+
+    <div class="section-title">Requested by</div>
+    <div class="row2">
+      <div class="field">
+        <label for="name">Full name <span class="required-mark">*</span></label>
+        <input type="text" id="name" name="name" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="email">Email <span class="required-mark">*</span></label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+      </div>
+    </div>
+    <div class="field">
+      <label for="phone">Phone <span class="hint">(optional)</span></label>
+      <input type="tel" id="phone" name="phone" autocomplete="tel">
+    </div>
+
+    <div class="section-title">Device details</div>
+    <div class="row2">
+      <div class="field">
+        <label for="quantity">Number of laptops <span class="required-mark">*</span></label>
+        <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+      </div>
+      <div class="field">
+        <label for="deviceFor">For</label>
+        <select id="deviceFor" name="deviceFor">
+          <option value="New hire">New hire</option>
+          <option value="Replacement — damaged">Replacement — damaged</option>
+          <option value="Replacement — aged out">Replacement — aged out</option>
+          <option value="Additional / spare">Additional / spare</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <fieldset>
+        <legend>Spec tier</legend>
+        <label class="radio-opt">
+          <input type="radio" name="tier" value="Standard business" checked>
+          <span>
+            <span class="opt-title">Standard business</span><br>
+            <span class="opt-sub">General office work — email, documents, browsing</span>
+          </span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="tier" value="Power user">
+          <span>
+            <span class="opt-title">Power user</span><br>
+            <span class="opt-sub">Development, design, heavier multitasking</span>
+          </span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="tier" value="Executive">
+          <span>
+            <span class="opt-title">Executive / premium</span><br>
+            <span class="opt-sub">Lightweight, premium build</span>
+          </span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="tier" value="Not sure">
+          <span>
+            <span class="opt-title">Not sure — recommend one</span>
+          </span>
+        </label>
+      </fieldset>
+    </div>
+
+    <div class="field">
+      <label for="notes">Anything else we should know</label>
+      <textarea id="notes" name="notes" placeholder="Software needs, accessories, docking setup, etc."></textarea>
+    </div>
+
+    <div class="section-title">Timing</div>
+    <div class="field">
+      <label for="neededBy">Needed by <span class="hint">(optional)</span></label>
+      <input type="date" id="neededBy" name="neededBy">
+    </div>
+
+    <div class="actions">
+      <button type="submit" id="submitBtn">Send request</button>
+      <span class="status" id="statusMsg"></span>
+    </div>
+  </form>
+
+  <div class="confirm" id="confirmBox">
+    <div class="check">✓</div>
+    <h2>Request received</h2>
+    <p>Reference <span class="refnum" id="confirmRef"></span></p>
+    <p>We've logged this and will follow up by email with next steps and timing.</p>
+  </div>
+
+  <footer>
+    Questions about an existing request? Reply to your confirmation email or contact your account manager.
+  </footer>
+  </div>
+</div>
+</div>
+
+<script>
+  // Set this to the "When an HTTP request is received" trigger URL from your
+  // Power Automate flow. Leave blank to fall back to a mailto draft instead.
+  const WEBHOOK_URL = "";
+  const NOTIFY_EMAIL = "jack.galbraith@solaas.it"; // used only as the mailto fallback
+
+  function genRef() {
+    const d = new Date();
+    const stamp = d.toISOString().slice(0,10).replace(/-/g,"");
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    return "LR-" + stamp + "-" + rand;
+  }
+  const ref = genRef();
+  document.getElementById("refNum").textContent = "Ref " + ref;
+
+  const form = document.getElementById("laptopForm");
+  const statusMsg = document.getElementById("statusMsg");
+  const submitBtn = document.getElementById("submitBtn");
+  const confirmBox = document.getElementById("confirmBox");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.reference = ref;
+    data.submittedAt = new Date().toISOString();
+
+    submitBtn.disabled = true;
+    statusMsg.textContent = "Sending…";
+    statusMsg.classList.remove("error");
+
+    if (!WEBHOOK_URL) {
+      // No webhook configured yet — open a pre-filled email as a fallback.
+      const lines = [
+        "New laptop request — " + ref,
+        "",
+        "Company: " + (data.company || "—"),
+        "Site / location: " + (data.site || "—"),
+        "PO / cost code: " + (data.poNumber || "—"),
+        "",
+        "Requested by: " + (data.name || "—"),
+        "Email: " + (data.email || "—"),
+        "Phone: " + (data.phone || "—"),
+        "",
+        "Quantity: " + (data.quantity || "—"),
+        "For: " + (data.deviceFor || "—"),
+        "Spec tier: " + (data.tier || "—"),
+        "Needed by: " + (data.neededBy || "—"),
+        "",
+        "Notes: " + (data.notes || "—"),
+        "",
+        "Submitted: " + data.submittedAt
+      ];
+      const body = lines.map(encodeURIComponent).join("%0D%0A");
+      window.location.href = "mailto:" + NOTIFY_EMAIL + "?subject=" + encodeURIComponent("Laptop request " + ref) + "&body=" + body;
+      statusMsg.textContent = "Opening your email client…";
+      submitBtn.disabled = false;
+      showConfirm();
+      return;
+    }
+
+    try {
+      const resp = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!resp.ok) throw new Error("Request failed (" + resp.status + ")");
+      showConfirm();
+    } catch (err) {
+      statusMsg.textContent = "Couldn't send automatically — try again, or email " + NOTIFY_EMAIL + ".";
+      statusMsg.classList.add("error");
+      submitBtn.disabled = false;
+    }
+  });
+
+  function showConfirm() {
+    form.style.display = "none";
+    confirmBox.style.display = "block";
+    document.getElementById("confirmRef").textContent = ref;
+    confirmBox.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+</script>
+</body>
+</html>
