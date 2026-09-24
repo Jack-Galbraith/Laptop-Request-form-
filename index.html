@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Laptop Request</title>
+<title>Laptop Request | SolaaS</title>
 <style>
   :root {
-    --ink: #14213D;
-    --ink-soft: #2B3A5C;
-    --paper: #F1F0EC;
+    /* Brand palette: change these to match your brand guidelines */
+    --brand: #1D5FD1;
+    --brand-deep: #14479E;
+    --brand-wash: #E6EEFB;
+
+    --ink: #0F2447;
+    --ink-soft: #2B3F66;
+    --paper: #EEF2F8;
     --panel: #FFFFFF;
-    --line: #E3E1D9;
-    --line-soft: #ECEAE2;
-    --text: #22252B;
-    --text-mute: #6B6E76;
-    --amber: #C97A1A;
-    --amber-deep: #A5620F;
-    --amber-wash: #FBEEDD;
-    --teal: #4F7A72;
-    --error: #B3421F;
+    --line: #DCE3EF;
+    --line-soft: #E8EDF6;
+    --text: #1E2430;
+    --text-mute: #626C80;
+    --teal: #2F7D6B;
+    --error: #B3261E;
     --radius: 6px;
     --radius-lg: 14px;
     box-sizing: border-box;
@@ -27,27 +29,31 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --paper: #101216;
-      --panel: #1B1E24;
-      --line: #33363E;
-      --line-soft: #2A2D34;
-      --text: #ECECE7;
-      --text-mute: #9A9DA6;
-      --ink: #EDEFF5;
-      --ink-soft: #C6CCDC;
-      --amber-wash: #2E2214;
+      --brand: #4C8DF6;
+      --brand-deep: #2F6FD6;
+      --brand-wash: #14233F;
+      --paper: #0D1118;
+      --panel: #171C26;
+      --line: #2C3444;
+      --line-soft: #232A38;
+      --text: #E9EDF5;
+      --text-mute: #97A1B5;
+      --ink: #EAF0FC;
+      --ink-soft: #C3CDE3;
     }
   }
   :root[data-theme="dark"] {
-    --paper: #101216;
-    --panel: #1B1E24;
-    --line: #33363E;
-    --line-soft: #2A2D34;
-    --text: #ECECE7;
-    --text-mute: #9A9DA6;
-    --ink: #EDEFF5;
-    --ink-soft: #C6CCDC;
-    --amber-wash: #2E2214;
+    --brand: #4C8DF6;
+    --brand-deep: #2F6FD6;
+    --brand-wash: #14233F;
+    --paper: #0D1118;
+    --panel: #171C26;
+    --line: #2C3444;
+    --line-soft: #232A38;
+    --text: #E9EDF5;
+    --text-mute: #97A1B5;
+    --ink: #EAF0FC;
+    --ink-soft: #C3CDE3;
   }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
   * { box-sizing: border-box; }
@@ -55,7 +61,7 @@
     margin: 0;
     min-height: 100%;
     background:
-      radial-gradient(circle at 12% -10%, color-mix(in srgb, var(--amber) 7%, transparent), transparent 45%),
+      radial-gradient(circle at 12% -10%, color-mix(in srgb, var(--brand) 9%, transparent), transparent 45%),
       var(--paper);
     color: var(--text);
     font-family: -apple-system, "Segoe UI", "Inter", Helvetica, Arial, sans-serif;
@@ -72,16 +78,14 @@
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
-    box-shadow: 0 1px 2px rgba(20, 33, 61, 0.04), 0 18px 40px -22px rgba(20, 33, 61, 0.28);
+    box-shadow: 0 1px 2px rgba(15, 36, 71, 0.05), 0 18px 40px -22px rgba(15, 36, 71, 0.32);
     overflow: hidden;
   }
   .accent-bar {
     height: 5px;
-    background: linear-gradient(90deg, var(--amber) 0%, var(--amber-deep) 100%);
+    background: linear-gradient(90deg, var(--brand) 0%, var(--brand-deep) 100%);
   }
-  .card-inner {
-    padding: 40px 40px 44px;
-  }
+  .card-inner { padding: 40px 40px 44px; }
   @media (max-width: 520px) {
     .card-inner { padding: 30px 22px 34px; }
     .page-shell { padding: 0; }
@@ -89,18 +93,46 @@
   }
   header.masthead {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
+    gap: 12px;
     border-bottom: 1px solid var(--line);
     padding-bottom: 18px;
     margin-bottom: 4px;
   }
   .brand {
-    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 17px;
     font-weight: 700;
     letter-spacing: 0.01em;
     color: var(--ink);
   }
+  /* Logo slot: shows a monogram until LOGO_URL is set in the script below */
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-deep));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .logo-img {
+    display: none;
+    height: 34px;
+    max-width: 160px;
+    width: auto;
+    object-fit: contain;
+  }
+  .brand.has-logo .logo-mark { display: none; }
+  .brand.has-logo .logo-img { display: block; }
+  .brand.has-logo .brand-name.hide-with-logo { display: none; }
   .ref {
     font-size: 11.5px;
     color: var(--text-mute);
@@ -108,6 +140,7 @@
     background: var(--line-soft);
     padding: 3px 8px;
     border-radius: 20px;
+    white-space: nowrap;
   }
   h1 {
     font-size: 29px;
@@ -129,13 +162,11 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--amber-deep);
+    color: var(--brand-deep);
     margin: 38px 0 14px;
   }
   .section-title:first-of-type { margin-top: 34px; }
-  .field {
-    margin: 16px 0;
-  }
+  .field { margin: 16px 0; }
   .field label {
     display: block;
     font-size: 13.5px;
@@ -153,9 +184,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 16px;
   }
-  @media (max-width: 520px) {
-    .row2 { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
   input, select, textarea {
     width: 100%;
     font: inherit;
@@ -171,9 +200,9 @@
   input:hover, select:hover, textarea:hover { border-color: color-mix(in srgb, var(--ink) 25%, var(--line)); }
   input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: var(--amber);
+    border-color: var(--brand);
     background: var(--panel);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--amber) 18%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent);
   }
   textarea { resize: vertical; min-height: 84px; }
   fieldset {
@@ -199,9 +228,9 @@
     border-radius: var(--radius);
     transition: background 120ms ease;
   }
-  .radio-opt:hover { background: var(--amber-wash); }
+  .radio-opt:hover { background: var(--brand-wash); }
   .radio-opt:last-child { border-bottom: none; }
-  .radio-opt input { width: auto; margin-top: 3px; accent-color: var(--amber); }
+  .radio-opt input { width: auto; margin-top: 3px; accent-color: var(--brand); }
   .radio-opt .opt-title { font-size: 14.5px; font-weight: 600; }
   .radio-opt .opt-sub { font-size: 12.5px; color: var(--text-mute); margin-top: 1px; }
   .actions {
@@ -213,7 +242,7 @@
     gap: 16px;
   }
   button[type="submit"] {
-    background: var(--amber);
+    background: var(--brand);
     color: #fff;
     border: none;
     font-size: 15px;
@@ -221,18 +250,16 @@
     padding: 13px 28px;
     border-radius: var(--radius);
     cursor: pointer;
-    box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--amber-deep) 70%, transparent);
+    box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--brand-deep) 75%, transparent);
     transition: background 120ms ease, transform 120ms ease, box-shadow 120ms ease;
   }
-  button[type="submit"]:hover { background: var(--amber-deep); transform: translateY(-1px); box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--amber-deep) 75%, transparent); }
+  button[type="submit"]:hover { background: var(--brand-deep); transform: translateY(-1px); box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--brand-deep) 80%, transparent); }
   button[type="submit"]:active { transform: translateY(0); }
+  button[type="submit"]:focus-visible { outline: 3px solid color-mix(in srgb, var(--brand) 40%, transparent); outline-offset: 2px; }
   button[type="submit"]:disabled { opacity: 0.55; cursor: default; transform: none; box-shadow: none; }
-  .status {
-    font-size: 13.5px;
-    color: var(--text-mute);
-  }
+  .status { font-size: 13.5px; color: var(--text-mute); }
   .status.error { color: var(--error); }
-  .required-mark { color: var(--amber-deep); }
+  .required-mark { color: var(--brand-deep); }
   .confirm {
     display: none;
     border: 1px solid var(--teal);
@@ -251,11 +278,7 @@
     font-size: 18px;
     margin-bottom: 14px;
   }
-  .confirm h2 {
-    margin: 0 0 8px;
-    font-size: 19px;
-    color: var(--ink);
-  }
+  .confirm h2 { margin: 0 0 8px; font-size: 19px; color: var(--ink); }
   .confirm p { margin: 0 0 4px; font-size: 14.5px; color: var(--text-mute); line-height: 1.5; }
   .confirm .refnum { font-weight: 700; color: var(--teal); font-variant-numeric: tabular-nums; }
   footer {
@@ -263,8 +286,14 @@
     padding-top: 18px;
     border-top: 1px solid var(--line);
     font-size: 12px;
+    line-height: 1.6;
     color: var(--text-mute);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
   }
+  footer .foot-brand { font-weight: 700; color: var(--ink-soft); }
 </style>
 </head>
 <body>
@@ -274,7 +303,11 @@
   <div class="card-inner">
 
   <header class="masthead">
-    <div class="brand">SolaaS</div>
+    <div class="brand" id="brand">
+      <span class="logo-mark" id="logoMark">S</span>
+      <img class="logo-img" id="logoImg" alt="SolaaS logo">
+      <span class="brand-name" id="brandName">SolaaS</span>
+    </div>
     <div class="ref" id="refNum"></div>
   </header>
 
@@ -391,17 +424,42 @@
   </div>
 
   <footer>
-    Questions about an existing request? Reply to your confirmation email or contact your account manager.
+    <span>Questions about an existing request? Reply to your confirmation email or contact your account manager.</span>
+    <span class="foot-brand" id="footBrand">SolaaS</span>
   </footer>
   </div>
 </div>
 </div>
 
 <script>
+  // ---- Branding ----
+  // BRAND_NAME: shown in the header and footer.
+  // LOGO_URL: a hosted image URL (e.g. from your website or SharePoint) or a
+  // data: URI. Leave blank to show the "S" monogram badge instead.
+  // If your logo already includes your company name, set LOGO_HIDES_NAME to true.
+  const BRAND_NAME = "SolaaS";
+  const LOGO_URL = "";
+  const LOGO_HIDES_NAME = false;
+
+  // ---- Submission ----
   // Set this to the "When an HTTP request is received" trigger URL from your
   // Power Automate flow. Leave blank to fall back to a mailto draft instead.
-  const WEBHOOK_URL = "";
+  const WEBHOOK_URL = "https://defaultbde4bee9deac400da537d55fa0b620.3e.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/28/workflows/96090e553430430fa9f2152e3b1b72f8/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5gf8b5y1uLt7p7Qgs8_RlRD0Rl52TvDwfGa9W3y88Ik";
   const NOTIFY_EMAIL = "jack.galbraith@solaas.it"; // used only as the mailto fallback
+
+  // Apply branding
+  document.getElementById("brandName").textContent = BRAND_NAME;
+  document.getElementById("footBrand").textContent = BRAND_NAME;
+  document.title = "Laptop Request | " + BRAND_NAME;
+  document.getElementById("logoMark").textContent = (BRAND_NAME.trim().charAt(0) || "S").toUpperCase();
+  if (LOGO_URL) {
+    const img = document.getElementById("logoImg");
+    img.src = LOGO_URL;
+    img.alt = BRAND_NAME + " logo";
+    const brandEl = document.getElementById("brand");
+    brandEl.classList.add("has-logo");
+    if (LOGO_HIDES_NAME) document.getElementById("brandName").classList.add("hide-with-logo");
+  }
 
   function genRef() {
     const d = new Date();
