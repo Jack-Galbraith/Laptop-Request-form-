@@ -131,7 +131,18 @@
     object-fit: contain;
   }
   .brand.has-logo .logo-mark { display: none; }
-  .brand.has-logo .logo-img { display: block; }
+  .brand.has-logo .logo-img {
+  display: none;
+  height: 56px;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.logo-img.on-white {
+  background: #fff;
+  padding: 6px 10px;
+} display: block; }
   .brand.has-logo .brand-name.hide-with-logo { display: none; }
   h1 {
     font-size: 29px;
@@ -419,9 +430,7 @@
   // LOGO_URL: a hosted image URL (e.g. from your website or SharePoint) or a
   // data: URI. Leave blank to show the "S" monogram badge instead.
   // If your logo already includes your company name, set LOGO_HIDES_NAME to true.
-  const BRAND_NAME = "SolaaS";
-  const LOGO_URL = "";
-  const LOGO_HIDES_NAME = false;
+  
 
   // ---- Submission ----
   // Set this to the "When an HTTP request is received" trigger URL from your
@@ -429,20 +438,38 @@
   const WEBHOOK_URL = "https://defaultbde4bee9deac400da537d55fa0b620.3e.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/28/workflows/96090e553430430fa9f2152e3b1b72f8/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5gf8b5y1uLt7p7Qgs8_RlRD0Rl52TvDwfGa9W3y88Ik";
   const NOTIFY_EMAIL = "jack.galbraith@solaas.it"; // used only as the mailto fallback
 
-  // Apply branding
-  document.getElementById("brandName").textContent = BRAND_NAME;
-  document.getElementById("footBrand").textContent = BRAND_NAME;
-  document.title = "Laptop Request | " + BRAND_NAME;
-  document.getElementById("logoMark").textContent = (BRAND_NAME.trim().charAt(0) || "S").toUpperCase();
-  if (LOGO_URL) {
-    const img = document.getElementById("logoImg");
-    img.src = LOGO_URL;
-    img.alt = BRAND_NAME + " logo";
-    const brandEl = document.getElementById("brand");
-    brandEl.classList.add("has-logo");
-    if (LOGO_HIDES_NAME) document.getElementById("brandName").classList.add("hide-with-logo");
-  }
+ // ---- Branding ----
+const DEFAULT_BRAND = "SolaaS";
+const DEFAULT_LOGO = "/logos/solaas.jpg";
 
+// One entry per client. Add a line here for each new client.
+const CLIENTS = {
+  circles: { name: "Circles Network", logo: "/logos/circles.png", whiteBacking: true }
+};
+
+const clientId = (new URLSearchParams(location.search).get("client") || "").toLowerCase();
+const client = CLIENTS[clientId];
+
+const BRAND_NAME = client ? client.name : DEFAULT_BRAND;
+const LOGO_URL = client ? client.logo : DEFAULT_LOGO;
+const LOGO_HIDES_NAME = true; // both logos already contain the company name
+
+document.getElementById("brandName").textContent = BRAND_NAME;
+document.getElementById("footBrand").textContent = DEFAULT_BRAND;
+document.title = "Laptop Request | " + BRAND_NAME;
+document.getElementById("logoMark").textContent = (BRAND_NAME.trim().charAt(0) || "S").toUpperCase();
+
+if (LOGO_URL) {
+  const img = document.getElementById("logoImg");
+  img.src = LOGO_URL;
+  img.alt = BRAND_NAME + " logo";
+  if (client && client.whiteBacking) img.classList.add("on-white");
+  document.getElementById("brand").classList.add("has-logo");
+  if (LOGO_HIDES_NAME) document.getElementById("brandName").classList.add("hide-with-logo");
+}
+
+// Pre-fill the company field for known clients
+if (client) document.getElementById("company").value = client.name;
   const form = document.getElementById("laptopForm");
   const statusMsg = document.getElementById("statusMsg");
   const submitBtn = document.getElementById("submitBtn");
