@@ -315,15 +315,9 @@
         <input type="email" id="newUserEmail" name="newUserEmail" required autocomplete="off" placeholder="e.g. jane.smith@company.com">
       </div>
     </div>
-    <div class="row2">
-      <div class="field">
-        <label for="startDate">Start date of new user <span class="required-mark">*</span></label>
-        <input type="date" id="startDate" name="startDate" required>
-      </div>
-      <div class="field">
-        <label for="credentialsBy">Credentials required by <span class="required-mark">*</span></label>
-        <input type="date" id="credentialsBy" name="credentialsBy" required>
-      </div>
+    <div class="field">
+      <label for="startDate">Start date of new user <span class="required-mark">*</span></label>
+      <input type="date" id="startDate" name="startDate" required>
     </div>
     <div class="row2">
       <div class="field">
@@ -480,7 +474,6 @@
         "New user: " + (data.newUserName || "—"),
         "New user email required: " + (data.newUserEmail || "—"),
         "Start date: " + (data.startDate || "—"),
-        "Credentials required by: " + (data.credentialsBy || "—"),
         "Office location: " + (data.officeLocation || "—"),
         "Job role: " + (data.jobRole || "—"),
         "Permissions copied from: " + (data.permissionsFrom || "—"),
