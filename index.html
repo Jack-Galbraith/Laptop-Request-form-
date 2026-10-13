@@ -379,32 +379,19 @@
 
     <div class="field">
       <fieldset>
-        <legend>Spec tier</legend>
+        <legend>Spec</legend>
         <label class="radio-opt">
-          <input type="radio" name="tier" value="Standard business" checked>
+          <input type="radio" name="tier" value="Medium spec - 16GB i5" checked>
           <span>
-            <span class="opt-title">Standard business</span><br>
-            <span class="opt-sub">General office work — email, documents, browsing</span>
+            <span class="opt-title">Medium spec</span><br>
+            <span class="opt-sub">16GB RAM, Intel i5</span>
           </span>
         </label>
         <label class="radio-opt">
-          <input type="radio" name="tier" value="Power user">
+          <input type="radio" name="tier" value="High spec - 32GB i7">
           <span>
-            <span class="opt-title">Power user</span><br>
-            <span class="opt-sub">Development, design, heavier multitasking</span>
-          </span>
-        </label>
-        <label class="radio-opt">
-          <input type="radio" name="tier" value="Executive">
-          <span>
-            <span class="opt-title">Executive / premium</span><br>
-            <span class="opt-sub">Lightweight, premium build</span>
-          </span>
-        </label>
-        <label class="radio-opt">
-          <input type="radio" name="tier" value="Not sure">
-          <span>
-            <span class="opt-title">Not sure — recommend one</span>
+            <span class="opt-title">High spec</span><br>
+            <span class="opt-sub">32GB RAM, Intel i7</span>
           </span>
         </label>
       </fieldset>
@@ -506,7 +493,7 @@
         "",
         "Quantity: " + (data.quantity || "—"),
         "For: " + (data.deviceFor || "—"),
-        "Spec tier: " + (data.tier || "—"),
+        "Spec: " + (data.tier || "—"),
         "Laptop needed by: " + (data.neededBy || "—"),
         "",
         "Notes: " + (data.notes || "—"),
