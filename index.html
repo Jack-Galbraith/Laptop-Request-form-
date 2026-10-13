@@ -276,8 +276,8 @@
   <div class="card-inner">
 
 <header class="masthead">
-  <img class="logo-main" src="/logos/solaas.jpg" alt="SolaaS">
-  <img class="logo-client" id="logoClient" alt="" hidden>
+  <img src="/logos/solaas.jpg" alt="SolaaS" style="height:48px; width:auto; max-width:48%; object-fit:contain; border-radius:8px;">
+  <img src="/logos/circles.png" alt="Circles Network" style="height:48px; width:auto; max-width:48%; object-fit:contain; background:#fff; padding:4px 10px; border-radius:8px;">
 </header>
 
   <h1>Request a laptop</h1>
@@ -449,8 +449,8 @@
   const NOTIFY_EMAIL = "jack.galbraith@solaas.it"; // used only as the mailto fallback
 
   // ---- Branding ----
-  // SolaaS logo always shows on the left. Add ?client=circles to the URL to
-  // show that client's logo on the right and pre-fill the company name.
+  // Both logos are set in the header above. Adding ?client=circles to the URL
+  // pre-fills the company name and sets the page title.
   // One entry per client. Add a line here for each new client.
   const DEFAULT_BRAND = "SolaaS";
   const CLIENTS = {
@@ -463,11 +463,6 @@
   document.title = "Laptop Request | " + (client ? client.name : DEFAULT_BRAND);
 
   if (client) {
-    const img = document.getElementById("logoClient");
-    img.src = client.logo;
-    img.alt = client.name;
-    if (client.whiteBacking) img.classList.add("on-white");
-    img.hidden = false;
     document.getElementById("company").value = client.name;
   }
 
