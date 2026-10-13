@@ -100,50 +100,22 @@
     padding-bottom: 18px;
     margin-bottom: 4px;
   }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    color: var(--ink);
-  }
-  /* Logo slot: shows a monogram until LOGO_URL is set in the script below */
-  .logo-mark {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    background: linear-gradient(135deg, var(--brand), var(--brand-deep));
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 800;
-    flex-shrink: 0;
-  }
-  .logo-img {
-    display: none;
-    height: 34px;
-    max-width: 160px;
+  .logo-main {
+    height: 48px;
     width: auto;
+    max-width: 48%;
     object-fit: contain;
+    border-radius: 8px;
   }
-  .brand.has-logo .logo-mark { display: none; }
-  .brand.has-logo .logo-img {
-  display: none;
-  height: 56px;
-  max-width: 100%;
-  width: auto;
-  object-fit: contain;
-  border-radius: 8px;
-}
-.logo-img.on-white {
-  background: #fff;
-  padding: 6px 10px;
-} display: block; }
-  .brand.has-logo .brand-name.hide-with-logo { display: none; }
+  .logo-client {
+    height: 72px;
+    width: auto;
+    max-width: 48%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .logo-client[hidden] { display: none; }
+  .logo-client.on-white { background: #fff; padding: 4px 10px; }
   h1 {
     font-size: 29px;
     line-height: 1.15;
@@ -304,9 +276,10 @@
   <div class="card-inner">
 
 <header class="masthead">
-  <img src="/logos/solaas.jpg" alt="SolaaS" style="height:48px; width:auto; max-width:48%; object-fit:contain; border-radius:8px;">
-  <img src<img src="/logos/circles.png" alt="Circles Network" style="height:72px; width:auto; max-width:48%; object-fit:contain; background:#fff; padding:4px 10px; border-radius:8px;">
+  <img class="logo-main" src="/logos/solaas.jpg" alt="SolaaS">
+  <img class="logo-client" id="logoClient" alt="" hidden>
 </header>
+
   <h1>Request a laptop</h1>
   <p class="lede">Fill this in whenever your organization needs a new or replacement device provisioned. We'll confirm receipt and follow up with a timeline.</p>
 
@@ -316,10 +289,6 @@
     <div class="field">
       <label for="company">Company name <span class="required-mark">*</span></label>
       <input type="text" id="company" name="company" required autocomplete="organization">
-    </div>
-    <div class="field">
-      <label for="site">Site / office location <span class="hint">(if required)</span></label>
-      <input type="text" id="site" name="site" placeholder="e.g. Main office, Remote">
     </div>
 
     <div class="section-title">Requested by</div>
@@ -336,6 +305,58 @@
     <div class="field">
       <label for="phone">Phone <span class="hint">(optional)</span></label>
       <input type="tel" id="phone" name="phone" autocomplete="tel">
+    </div>
+
+    <div class="section-title">New user details</div>
+    <div class="row2">
+      <div class="field">
+        <label for="newUserName">New user's name <span class="required-mark">*</span></label>
+        <input type="text" id="newUserName" name="newUserName" required autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="newUserEmail">Email address required for new user <span class="required-mark">*</span></label>
+        <input type="email" id="newUserEmail" name="newUserEmail" required autocomplete="off" placeholder="e.g. jane.smith@company.com">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="startDate">Start date of new user <span class="required-mark">*</span></label>
+        <input type="date" id="startDate" name="startDate" required>
+      </div>
+      <div class="field">
+        <label for="credentialsBy">Credentials required by <span class="required-mark">*</span></label>
+        <input type="date" id="credentialsBy" name="credentialsBy" required>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="officeLocation">Office location <span class="required-mark">*</span></label>
+        <input type="text" id="officeLocation" name="officeLocation" required placeholder="e.g. Main office, Remote">
+      </div>
+      <div class="field">
+        <label for="jobRole">Job role of new user <span class="required-mark">*</span></label>
+        <input type="text" id="jobRole" name="jobRole" required>
+      </div>
+    </div>
+    <div class="field">
+      <label for="permissionsFrom">Permissions copied from <span class="hint">(an existing user, if any)</span></label>
+      <input type="text" id="permissionsFrom" name="permissionsFrom" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="groupEmails">Group email requirements <span class="hint">(shared mailboxes, distribution lists)</span></label>
+      <textarea id="groupEmails" name="groupEmails" placeholder="e.g. accounts@, sales@"></textarea>
+    </div>
+    <div class="field">
+      <label for="licence">Business Basic or Premium <span class="required-mark">*</span></label>
+      <select id="licence" name="licence" required>
+        <option value="" selected disabled>Select a licence</option>
+        <option value="Business Basic">Business Basic</option>
+        <option value="Business Premium">Business Premium</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="otherSoftware">Other software requirements</label>
+      <textarea id="otherSoftware" name="otherSoftware" placeholder="e.g. Adobe Acrobat, Sage, industry-specific apps"></textarea>
     </div>
 
     <div class="section-title">Device details</div>
@@ -391,12 +412,12 @@
 
     <div class="field">
       <label for="notes">Anything else we should know</label>
-      <textarea id="notes" name="notes" placeholder="Software needs, accessories, docking setup, etc."></textarea>
+      <textarea id="notes" name="notes" placeholder="Accessories, docking setup, etc."></textarea>
     </div>
 
     <div class="section-title">Timing</div>
     <div class="field">
-      <label for="neededBy">Needed by <span class="required-mark">*</span></label>
+      <label for="neededBy">Laptop needed by <span class="required-mark">*</span></label>
       <input type="date" id="neededBy" name="neededBy" required>
     </div>
 
@@ -421,51 +442,35 @@
 </div>
 
 <script>
-  // ---- Branding ----
-  // BRAND_NAME: shown in the header and footer.
-  // LOGO_URL: a hosted image URL (e.g. from your website or SharePoint) or a
-  // data: URI. Leave blank to show the "S" monogram badge instead.
-  // If your logo already includes your company name, set LOGO_HIDES_NAME to true.
-  
-
   // ---- Submission ----
   // Set this to the "When an HTTP request is received" trigger URL from your
   // Power Automate flow. Leave blank to fall back to a mailto draft instead.
   const WEBHOOK_URL = "https://defaultbde4bee9deac400da537d55fa0b620.3e.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/28/workflows/96090e553430430fa9f2152e3b1b72f8/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5gf8b5y1uLt7p7Qgs8_RlRD0Rl52TvDwfGa9W3y88Ik";
   const NOTIFY_EMAIL = "jack.galbraith@solaas.it"; // used only as the mailto fallback
 
- // ---- Branding ----
-const DEFAULT_BRAND = "SolaaS";
-const DEFAULT_LOGO = "/logos/solaas.jpg";
+  // ---- Branding ----
+  // SolaaS logo always shows on the left. Add ?client=circles to the URL to
+  // show that client's logo on the right and pre-fill the company name.
+  // One entry per client. Add a line here for each new client.
+  const DEFAULT_BRAND = "SolaaS";
+  const CLIENTS = {
+    circles: { name: "Circles Network", logo: "/logos/circles.png", whiteBacking: true }
+  };
 
-// One entry per client. Add a line here for each new client.
-const CLIENTS = {
-  circles: { name: "Circles Network", logo: "/logos/circles.png", whiteBacking: true }
-};
+  const clientId = (new URLSearchParams(location.search).get("client") || "").toLowerCase();
+  const client = CLIENTS[clientId];
 
-const clientId = (new URLSearchParams(location.search).get("client") || "").toLowerCase();
-const client = CLIENTS[clientId];
+  document.title = "Laptop Request | " + (client ? client.name : DEFAULT_BRAND);
 
-const BRAND_NAME = client ? client.name : DEFAULT_BRAND;
-const LOGO_URL = client ? client.logo : DEFAULT_LOGO;
-const LOGO_HIDES_NAME = true; // both logos already contain the company name
+  if (client) {
+    const img = document.getElementById("logoClient");
+    img.src = client.logo;
+    img.alt = client.name;
+    if (client.whiteBacking) img.classList.add("on-white");
+    img.hidden = false;
+    document.getElementById("company").value = client.name;
+  }
 
-document.getElementById("brandName").textContent = BRAND_NAME;
-document.getElementById("footBrand").textContent = DEFAULT_BRAND;
-document.title = "Laptop Request | " + BRAND_NAME;
-document.getElementById("logoMark").textContent = (BRAND_NAME.trim().charAt(0) || "S").toUpperCase();
-
-if (LOGO_URL) {
-  const img = document.getElementById("logoImg");
-  img.src = LOGO_URL;
-  img.alt = BRAND_NAME + " logo";
-  if (client && client.whiteBacking) img.classList.add("on-white");
-  document.getElementById("brand").classList.add("has-logo");
-  if (LOGO_HIDES_NAME) document.getElementById("brandName").classList.add("hide-with-logo");
-}
-
-// Pre-fill the company field for known clients
-if (client) document.getElementById("company").value = client.name;
   const form = document.getElementById("laptopForm");
   const statusMsg = document.getElementById("statusMsg");
   const submitBtn = document.getElementById("submitBtn");
@@ -488,16 +493,26 @@ if (client) document.getElementById("company").value = client.name;
         "New laptop request",
         "",
         "Company: " + (data.company || "—"),
-        "Site / location: " + (data.site || "—"),
         "",
         "Requested by: " + (data.name || "—"),
         "Email: " + (data.email || "—"),
         "Phone: " + (data.phone || "—"),
         "",
+        "New user: " + (data.newUserName || "—"),
+        "New user email required: " + (data.newUserEmail || "—"),
+        "Start date: " + (data.startDate || "—"),
+        "Credentials required by: " + (data.credentialsBy || "—"),
+        "Office location: " + (data.officeLocation || "—"),
+        "Job role: " + (data.jobRole || "—"),
+        "Permissions copied from: " + (data.permissionsFrom || "—"),
+        "Group email requirements: " + (data.groupEmails || "—"),
+        "Licence: " + (data.licence || "—"),
+        "Other software: " + (data.otherSoftware || "—"),
+        "",
         "Quantity: " + (data.quantity || "—"),
         "For: " + (data.deviceFor || "—"),
         "Spec tier: " + (data.tier || "—"),
-        "Needed by: " + (data.neededBy || "—"),
+        "Laptop needed by: " + (data.neededBy || "—"),
         "",
         "Notes: " + (data.notes || "—"),
         "",
